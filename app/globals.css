@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+html { scroll-behavior: smooth; }
+body { background: #050C1F; color: #F7F2E7; font-family: Manrope, system-ui, sans-serif; }
+:focus-visible { outline: 2px solid #D9AE5F; outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { animation: none !important; transition: none !important; } }
+@keyframes tapring { 0% { transform: scale(.6); opacity: .7 } 100% { transform: scale(1.6); opacity: 0 } }
+.tapring { animation: tapring 2.6s ease-out infinite; }
+label { display:block; margin-bottom:6px; font-size:.9rem; color:#cfd6e8; }
+.field { width: 100%; border-radius: 14px; background: #0A1630; border: 1px solid #1A3066; padding: 12px 14px; color: #F7F2E7; }
+.field::placeholder { color: #7f8bab; }
+.field[aria-invalid="true"] { border-color: #f08a7e; }
