@@ -20,10 +20,7 @@ export async function PUT(req: Request) {
   const b = await req.json().catch(() => null);
 
   if (!b) {
-    return NextResponse.json(
-      { error: "Invalid request" },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
   const tiers = b.tiers;
@@ -43,10 +40,7 @@ export async function PUT(req: Request) {
     )
   ) {
     return NextResponse.json(
-      {
-        error:
-          "Each price band needs whole numbers: from, to (≥ from) and a price above 0.",
-      },
+      { error: "Invalid price bands." },
       { status: 400 }
     );
   }
@@ -72,10 +66,7 @@ export async function PUT(req: Request) {
     (!Number.isInteger(delivery) || delivery < 0 || delivery > 100000)
   ) {
     return NextResponse.json(
-      {
-        error:
-          "Delivery charge must be a whole number (0 for free delivery), or empty if not set.",
-      },
+      { error: "Invalid delivery charge." },
       { status: 400 }
     );
   }
@@ -84,7 +75,7 @@ export async function PUT(req: Request) {
 
   if (upi && !/^[A-Za-z0-9._-]{2,}@[A-Za-z0-9]{2,}$/.test(upi)) {
     return NextResponse.json(
-      { error: "UPI ID should look like name@bank." },
+      { error: "Invalid UPI ID." },
       { status: 400 }
     );
   }
@@ -93,10 +84,7 @@ export async function PUT(req: Request) {
 
   if (!/^\d{11,15}$/.test(wa)) {
     return NextResponse.json(
-      {
-        error:
-          "WhatsApp number must include country code, e.g. 917977730026.",
-      },
+      { error: "Invalid WhatsApp number." },
       { status: 400 }
     );
   }
@@ -107,10 +95,7 @@ export async function PUT(req: Request) {
     !/^https:\/\/(www\.)?instagram\.com\/[A-Za-z0-9._/-]+$/.test(ig)
   ) {
     return NextResponse.json(
-      {
-        error:
-          "Instagram link must start with https://www.instagram.com/",
-      },
+      { error: "Invalid Instagram URL." },
       { status: 400 }
     );
   }
@@ -126,6 +111,7 @@ export async function PUT(req: Request) {
   });
 
   if (error) {
+    console.error("Settings save error:", error);
     return NextResponse.json(
       { error: "Could not save settings" },
       { status: 500 }
