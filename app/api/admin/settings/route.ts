@@ -100,15 +100,18 @@ export async function PUT(req: Request) {
     );
   }
 
-  const { error } = await client.from("settings").upsert({
-    id: 1,
-    tiers: sorted,
-    delivery_charge: delivery,
-    upi_id: upi,
-    whatsapp_number: wa,
-    instagram_url: ig,
-    updated_at: new Date().toISOString(),
-  });
+  const { error } = await client.from("settings").upsert(
+    {
+      id: 1,
+      tiers: sorted,
+      delivery_charge: delivery,
+      upi_id: upi,
+      whatsapp_number: wa,
+      instagram_url: ig,
+      updated_at: new Date().toISOString(),
+    },
+    { onConflict: "id" }
+  );
 
   if (error) {
     console.error("Settings save error:", error);
